@@ -6,5 +6,4 @@ import com.jpa.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	User findByLastName(String name);
-
 }

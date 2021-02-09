@@ -1,6 +1,5 @@
 package com.jpa.controller;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,9 +22,9 @@ public class UserControllerTest {
 	@Test
 	public void getAllUsers() throws Exception {
 	
-		mvc.perform(MockMvcRequestBuilders.get("/api/user").accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk())
-		.andExpect(content().string(equalTo("Welcome to Sprint Boot JPA")));
+		mvc.perform(MockMvcRequestBuilders.get("/api/user?lastname=five").accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isFound())
+		.andExpect(content().json("{\"id\":14,\"firstName\":\"test5\",\"lastName\":\"five\",\"email\":\"test5@test.com\"}"));
 	}
 	
 }
