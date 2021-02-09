@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "lnd_user")
-public class User implements Serializable{
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class User implements Serializable{
 	private String email;
 
 	public User() {
-	
+
 	}
 
 	public User(String firstName, String lastName, String email) {
@@ -61,6 +61,21 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj)
+			return true;
+
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+
+		User user = (User) obj;
+
+		return user.getFirstName().equals(this.getFirstName())
+				&& user.getLastName().equals(this.getLastName()) && user.getEmail().equals(this.getEmail());
 	}
 
 }
