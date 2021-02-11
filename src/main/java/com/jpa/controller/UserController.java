@@ -1,6 +1,7 @@
 package com.jpa.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,22 @@ public class UserController {
 
 	@RequestMapping(path = "/user", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
+		if (user.getId() != null) {
+			return new ResponseEntity<User>(HttpStatus.CONFLICT);
+		}
 		User newUser = this.usrRepository.save(user);
 		return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(path = "/user", method = RequestMethod.PUT)
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
+		Optional<User> findUserById = this.usrRepository.findById(user.getId());
+		if (!findUserById.isPresent()) {
+			return new ResponseEntity<User>(HttpStatus.CONFLICT);
+		}
+
+		User newUser = this.usrRepository.save(user);
+		return new ResponseEntity<User>(newUser, HttpStatus.ACCEPTED);
 	}
 
 }

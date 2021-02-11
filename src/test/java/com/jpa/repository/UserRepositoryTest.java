@@ -52,5 +52,5 @@ public class UserRepositoryTest {
 		assertEquals(newUser.getFirstName(), user.getFirstName());
 		assertEquals(newUser.getLastName(), user.getLastName());
 		assertEquals(newUser.getEmail(), user.getEmail());
-	}
+	}		
 }
