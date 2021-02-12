@@ -2,7 +2,6 @@ package com.jpa.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jpa.UserService;
 import com.jpa.model.User;
 import com.jpa.repository.UserRepository;
+import com.jpa.search.SearchCriteria;
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +23,9 @@ public class UserController {
 
 	@Autowired
 	UserRepository usrRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping(path = "/users")
 	public List<User> getAllUsers() {
@@ -57,4 +61,8 @@ public class UserController {
 		return new ResponseEntity<User>(newUser, HttpStatus.ACCEPTED);
 	}
 
+	@GetMapping(path = "/search-user")
+	public List<User> searchUser(@RequestBody SearchCriteria searchCriteria) {
+		return this.userService.searchUser(searchCriteria);
+	}
 }
