@@ -1,9 +1,9 @@
 package com.jpa;
 
-import java.util.List;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jpa.builder.query.QueryBuilder;
@@ -16,8 +16,13 @@ public class UserService {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public List<User> searchUser(SearchCriteria searchCriteria) {
+	public ResponseEntity<Object> searchUser(SearchCriteria searchCriteria) {
+		try {
 		QueryBuilder<User> qb = new QueryBuilder<User>(User.class, searchCriteria);
-		return qb.getQuery(this.sessionFactory.openSession()).getResultList();
+		return new ResponseEntity<Object>(qb.getQuery(this.sessionFactory.openSession()).getResultList(), HttpStatus.OK);
+		}
+		catch(IllegalArgumentException ex) {
+			return new ResponseEntity<Object>("UnSupported Operator "+searchCriteria.getOp(), HttpStatus.BAD_REQUEST);
+		}
 	}
 }

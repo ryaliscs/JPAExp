@@ -62,7 +62,7 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/search-user")
-	public List<User> searchUser(@RequestBody SearchCriteria searchCriteria) {
+	public ResponseEntity<Object> searchUser(@RequestBody SearchCriteria searchCriteria) {
 		return this.userService.searchUser(searchCriteria);
 	}
 }
