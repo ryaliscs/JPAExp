@@ -44,7 +44,7 @@ public class UserRepositoryTest {
 	
 	@Test
 	public void testUser_02() {
-		User newUser = createUser(10);
+		User newUser = createUser(20);
 		Optional<User> userO = this.usrRepository.findById(newUser.getId());
 		assertTrue(userO.isPresent());
 		User user = userO.get();

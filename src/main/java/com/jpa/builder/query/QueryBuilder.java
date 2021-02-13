@@ -38,9 +38,11 @@ public class QueryBuilder<T> {
 			p = cb.like(root.get(searchCriteria.getName()), "%" + searchCriteria.getValue() + "%");
 			break;
 
-		default: // EQUAL
+		case EQUAL:
 			p = cb.equal(root.get(searchCriteria.getName()), searchCriteria.getValue());
 			break;
+		default: // Error
+			 throw new IllegalArgumentException(searchCriteria.getOp());			
 		}
 		return p;
 	}

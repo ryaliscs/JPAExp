@@ -1,9 +1,8 @@
 package com.jpa.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +22,7 @@ public class UserController {
 
 	@Autowired
 	UserRepository usrRepository;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -31,37 +30,28 @@ public class UserController {
 	public List<User> getAllUsers() {
 		return this.usrRepository.findAll();
 	}
-
-	@GetMapping(path = "/user")
-	public ResponseEntity<User> findByName(@RequestParam(value = "lastname") String lastname) {
-		User user = this.usrRepository.findByLastName(lastname);
-		if (user != null) {
-			return new ResponseEntity<User>(user, HttpStatus.FOUND);
-		}
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	}
-
+	
 	@RequestMapping(path = "/user", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
-		if (user.getId() != null) {
-			return new ResponseEntity<User>(HttpStatus.CONFLICT);
-		}
-		User newUser = this.usrRepository.save(user);
-		return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+		return this.userService.createUser(user);
 	}
 
 	@RequestMapping(path = "/user", method = RequestMethod.PUT)
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
-		Optional<User> findUserById = this.usrRepository.findById(user.getId());
-		if (!findUserById.isPresent()) {
-			return new ResponseEntity<User>(HttpStatus.CONFLICT);
-		}
-
-		User newUser = this.usrRepository.save(user);
-		return new ResponseEntity<User>(newUser, HttpStatus.ACCEPTED);
+		return this.userService.updateUser(user);
+	}
+	
+	@GetMapping(path = "/user")
+	public ResponseEntity<User> findUserById(@RequestParam(value = "id") Long id) {
+		return this.userService.getUser(id);
 	}
 
-	@GetMapping(path = "/search-user")
+	@GetMapping(path = "/user-last-name")
+	public ResponseEntity<User> findByLastName(@RequestParam(value = "lastname") String lastname) {
+		return this.userService.findByLastName(lastname);
+	}
+
+	@GetMapping(path = "/user-search")
 	public ResponseEntity<Object> searchUser(@RequestBody SearchCriteria searchCriteria) {
 		return this.userService.searchUser(searchCriteria);
 	}
