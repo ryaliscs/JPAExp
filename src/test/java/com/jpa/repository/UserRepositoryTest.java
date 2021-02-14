@@ -26,7 +26,7 @@ public class UserRepositoryTest {
 
 	@Autowired
 	private UserRepository usrRepository;
-	
+
 	private User createUser(int suffix) {
 		User user = new User("first_" + suffix, "last_" + suffix, "email" + suffix + "@mail");
 		user = this.entityManager.persist(user);
@@ -41,14 +41,32 @@ public class UserRepositoryTest {
 		assertNotNull(user);
 		assertEquals("email10@mail", user.getEmail());
 	}
-	
+
 	@Test
 	public void testUser_02() {
 		User newUser = createUser(20);
 		Optional<User> userO = this.usrRepository.findById(newUser.getId());
 		assertTrue(userO.isPresent());
+		compareResult(newUser, userO);
+	}
+
+	@Test
+	public void testUpdateUser() {
+		User newUser = createUser(50);
+		Optional<User> userO = this.usrRepository.findById(newUser.getId());
+		assertTrue(userO.isPresent());
+		compareResult(newUser, userO);
 		User user = userO.get();
-		
+		// update
+		user.setFirstName(user.getFirstName() + "_100");
+		user = this.usrRepository.save(user);
+		// newUser is updated after save
+		assertEquals(newUser.getFirstName(), user.getFirstName());
+	}
+
+	private void compareResult(User newUser, Optional<User> userO) {
+		User user = userO.get();
+
 		assertEquals(newUser.getFirstName(), user.getFirstName());
 		assertEquals(newUser.getLastName(), user.getLastName());
 		assertEquals(newUser.getEmail(), user.getEmail());
