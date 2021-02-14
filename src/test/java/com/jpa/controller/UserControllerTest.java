@@ -22,17 +22,19 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import com.jpa.model.User;
 import com.jpa.repository.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest  extends BaseTestController{
+public class UserControllerTest extends BaseTestController {
 
 	@MockBean
 	private UserRepository usrRepository;
 
+	
 
 	@Test
 	public void testCreateUser() throws Exception {

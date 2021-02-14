@@ -31,7 +31,7 @@ public abstract class BaseTestController {
 
 	@Before
 	public void setUp() {
-		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+//		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	
 	protected String mapToJson(Object obj) throws JsonProcessingException {

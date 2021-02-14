@@ -76,8 +76,10 @@ public class User implements Serializable {
 
 		User user = (User) obj;
 
-		return user.getFirstName().equals(this.getFirstName())
-				&& user.getLastName().equals(this.getLastName()) && user.getEmail().equals(this.getEmail());
+		return id==null || user.getId().equals(this.getId())
+				&& user.getFirstName().equals(this.getFirstName())
+				&& user.getLastName().equals(this.getLastName()) 
+				&& user.getEmail().equals(this.getEmail());
 	}
 
 }

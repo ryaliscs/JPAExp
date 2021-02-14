@@ -26,7 +26,7 @@ public class UserRepositoryTest {
 
 	@Autowired
 	private UserRepository usrRepository;
-
+	
 	private User createUser(int suffix) {
 		User user = new User("first_" + suffix, "last_" + suffix, "email" + suffix + "@mail");
 		user = this.entityManager.persist(user);
@@ -52,5 +52,6 @@ public class UserRepositoryTest {
 		assertEquals(newUser.getFirstName(), user.getFirstName());
 		assertEquals(newUser.getLastName(), user.getLastName());
 		assertEquals(newUser.getEmail(), user.getEmail());
-	}		
+	}
+
 }

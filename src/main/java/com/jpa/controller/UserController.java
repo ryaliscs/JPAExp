@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jpa.UserService;
 import com.jpa.model.User;
 import com.jpa.repository.UserRepository;
 import com.jpa.search.SearchCriteria;
+import com.jpa.service.UserService;
 
 @RestController
 @RequestMapping("/api")

@@ -1,45 +1,71 @@
 package com.jpa.search;
 
 import java.io.Serializable;
+import java.util.List;
 
+/**
+ * Search Criteria : Creates a search criteria with search nodes and search
+ * operator.
+ * 
+ * <pre>
+ * example
+	  	{
+		   "searchNodes":[
+		      {
+		         "name":"lastName",
+		         "value":"five",
+		         "op":"LIKE"
+		      },
+		      {
+		         "name":"firstName",
+		         "value":"test5",
+		         "op":"EQUAL"
+		      }
+		   ],
+		   "scOp":"OR"
+		}
+		when scOp = OR:
+		select * from <entitiy> where lastName LIKE '%five%' OR firstName='test5';
+		when scOp = AND:
+		select * from <entitiy> where lastName LIKE '%five%' AND firstName='test5';
+ * </pre>
+ * 
+ * @author saryal
+ *
+ */
 public class SearchCriteria implements Serializable {
 
-	private static final long serialVersionUID = 3464623786364675396L;
+	private static final long serialVersionUID = 2836053449503939573L;
 
-	private String name;
-	private String value;
-	private String op;
+	private List<SearchNode> searchNodes;
+	private SCOperator scOp;
 
 	public SearchCriteria() {
-	}
-
-	public SearchCriteria(String name, String value, String op) {
-		super();
-		this.name = name;
-		this.value = value;
-		this.op = op;
+		this.scOp = SCOperator.AND;
 	}
 
 	/**
-	 * @return the name
+	 * creates a SearchCriteria object
+	 * 
+	 * @param searchNodes nodes to be searched
+	 * @param scOperator  operator joing the nodes
 	 */
-	public String getName() {
-		return name;
+	public SearchCriteria(List<SearchNode> searchNodes, SCOperator scOperator) {
+		this.searchNodes = searchNodes;
+		this.scOp = scOperator;
 	}
 
 	/**
-	 * @return the value
+	 * @return the searchNodes
 	 */
-	public String getValue() {
-		return value;
+	public List<SearchNode> getSearchNodes() {
+		return searchNodes;
 	}
 
-	public String getOp() {
-		return this.op;
+	/**
+	 * @return the scOperator
+	 */
+	public SCOperator getScOp() {
+		return scOp;
 	}
-
-	public LIOperator getOperator() {
-		return LIOperator.valueOf(this.op);
-	}
-
 }

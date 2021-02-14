@@ -1,12 +1,14 @@
-package com.jpa;
+package com.jpa.service;
 
 import java.util.Optional;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import com.jpa.builder.query.QueryBuilder;
 import com.jpa.model.User;
 import com.jpa.repository.UserRepository;
@@ -16,11 +18,10 @@ import com.jpa.search.SearchCriteria;
 public class UserService {
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	private EntityManager entityManager;
 
 	@Autowired
 	UserRepository usrRepository;
-	
 
 	/**
 	 * Creates the User if new, otherwise returns CONFLICT
@@ -90,10 +91,9 @@ public class UserService {
 	public ResponseEntity<Object> searchUser(SearchCriteria searchCriteria) {
 		try {
 			QueryBuilder<User> qb = new QueryBuilder<User>(User.class, searchCriteria);
-			return new ResponseEntity<Object>(qb.getQuery(this.sessionFactory.openSession()).getResultList(),
-					HttpStatus.OK);
+			return new ResponseEntity<Object>(qb.getResult(this.entityManager), HttpStatus.FOUND);
 		} catch (IllegalArgumentException ex) {
-			return new ResponseEntity<Object>("UnSupported Operator " + searchCriteria.getOp(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
