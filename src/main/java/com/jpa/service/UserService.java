@@ -42,7 +42,7 @@ public class UserService {
 	 */
 	public ResponseEntity<User> createUser(User user) {
 		if (!isValidUser(user)) {
-			return new ResponseEntity<User>(HttpStatus.CONFLICT);
+			new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
 		}
 		User newUser = this.usrRepository.save(user);
 		return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
@@ -59,7 +59,7 @@ public class UserService {
 		if (user.isPresent()) {
 			return new ResponseEntity<User>(user.get(), HttpStatus.FOUND);
 		}
-		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not found");
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class UserService {
 		if (user != null) {
 			return new ResponseEntity<User>(user, HttpStatus.FOUND);
 		}
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not found");
 	}
 
 	/**
