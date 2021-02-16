@@ -1,11 +1,15 @@
 package com.jpa.builder.query;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -81,6 +85,43 @@ public class QueryBuilder<T> {
 		case EQUAL:
 			p = criteriaBuilder.equal(root.get(searchNode.getName()), searchNode.getValue());
 			break;
+
+		case GREATER_THAN:
+			p = criteriaBuilder.greaterThan(root.get(searchNode.getName()), searchNode.getValue());
+			break;
+
+		case GREATER_THAN_OR_EQUAL_TO:
+			p = criteriaBuilder.greaterThanOrEqualTo(root.get(searchNode.getName()), searchNode.getValue());
+			break;
+
+		case LESS_THAN:
+			p = criteriaBuilder.lessThan(root.get(searchNode.getName()), searchNode.getValue());
+			break;
+
+		case LESS_THAN_OR_EQUAL_TO:
+			p = criteriaBuilder.lessThanOrEqualTo(root.get(searchNode.getName()), searchNode.getValue());
+			break;
+
+		case NOT_EQUAL:
+			p = criteriaBuilder.notEqual(root.get(searchNode.getName()), searchNode.getValue());
+			break;
+			
+		case NOT_NULL:
+			p = criteriaBuilder.isNotNull(root.get(searchNode.getName()));
+			break;
+			
+		case IS_NULL:
+			p = criteriaBuilder.isNull(root.get(searchNode.getName()));
+			break;
+			
+//		case IS_EMPTY:
+//			p = criteriaBuilder.isEmpty(root.get(searchNode.getName()));
+//			break;
+//		case NOT_EMPTY:
+//			Path<Collection<?>> collection = root.get(searchNode.getName());
+//			p = criteriaBuilder.isNotEmpty(collection);
+//			break;
+			
 		default: // Error
 			throw new IllegalArgumentException("Unsupported operator " + searchNode.getOp());
 		}

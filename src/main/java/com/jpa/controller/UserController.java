@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jpa.model.User;
-import com.jpa.repository.UserRepository;
 import com.jpa.search.SearchCriteria;
 import com.jpa.service.UserService;
 
@@ -21,14 +20,11 @@ import com.jpa.service.UserService;
 public class UserController {
 
 	@Autowired
-	UserRepository usrRepository;
-
-	@Autowired
 	private UserService userService;
 
 	@GetMapping(path = "/users")
 	public List<User> getAllUsers() {
-		return this.usrRepository.findAll();
+		return this.userService.getAllUsers();
 	}
 	
 	@RequestMapping(path = "/user", method = RequestMethod.POST)

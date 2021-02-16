@@ -1,5 +1,6 @@
 package com.jpa.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.jpa.builder.query.QueryBuilder;
 import com.jpa.model.User;
@@ -22,6 +24,15 @@ public class UserService {
 
 	@Autowired
 	UserRepository usrRepository;
+
+	/**
+	 * Get All Users : Return all the users
+	 * 
+	 * @return all the users
+	 */
+	public List<User> getAllUsers() {
+		return this.usrRepository.findAll();
+	}
 
 	/**
 	 * Creates the User if new, otherwise returns CONFLICT
@@ -93,7 +104,7 @@ public class UserService {
 			QueryBuilder<User> qb = new QueryBuilder<User>(User.class, searchCriteria);
 			return new ResponseEntity<Object>(qb.getResult(this.entityManager), HttpStatus.FOUND);
 		} catch (IllegalArgumentException ex) {
-			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
 		}
 	}
 
